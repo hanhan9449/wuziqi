@@ -22,13 +22,17 @@ function getLogger(id: string) {
 /**
  * 使用数字存储位置，方便使用set对比 */
 function getPositionNum(N: number, index: number) {
-  return (~~(index / N) + 1) * MAGIC_NUMBER + (index % N) + 1;
+  const row = ~~(index / N) + 1;
+  const col = (index % N) + 1;
+  return row * MAGIC_NUMBER + col;
 }
 // logger需要打印行和列，所以使用这个实现
 function numToPosition(num: number) {
+  const row = ~~(num / MAGIC_NUMBER);
+  const col = num % MAGIC_NUMBER;
   return {
-    row: parseInt((num / MAGIC_NUMBER) as any),
-    col: num % MAGIC_NUMBER,
+    row,
+    col,
   };
 }
 /** 判断是否五子连珠 */
@@ -69,56 +73,60 @@ function isButton(el: HTMLElement) {
 }
 function main() {
   const N = 15;
-  const board = document.getElementById(BOARD_ID);
-  const main = document.getElementById(GAME_MAIN_ID);
-  const result = document.getElementById(RESULT_TEXT_ID);
-  const currNodeText = document.getElementById(CURR_NODE_TEXT_ID);
-  const dialogWrap = document.getElementById(DIALOG_WRAP_ID);
-  const resetButton = document.getElementById(RESET_BUTTON_ID);
-  let isFirst = true;
-  let firstList = new Set();
-  let secondList = new Set();
+  const board = document.getElementById(BOARD_ID) as HTMLElement;
+  const main = document.getElementById(GAME_MAIN_ID) as HTMLElement;
+  const result = document.getElementById(RESULT_TEXT_ID) as HTMLElement;
+  const currNodeText = document.getElementById(
+    CURR_NODE_TEXT_ID
+  ) as HTMLElement;
+  const dialogWrap = document.getElementById(DIALOG_WRAP_ID) as HTMLElement;
+  const resetButton = document.getElementById(
+    RESET_BUTTON_ID
+  ) as HTMLInputElement;
   const logger = getLogger(LOGGER_ID);
-  document.body.onload = () => {
-    currNodeText!.innerText = "现在轮到" + FIRST_NODE_ICON + " 行动了";
-  };
-  // TODO: 将reset抽象到onload函数
-  resetButton!.addEventListener("click", () => {
-    console.log("reset");
-    const nodes = document.getElementsByClassName("node");
+  let isFirst: boolean;
+  let firstList: Set<number>;
+  let secondList: Set<number>;
+  function init() {
     isFirst = true;
     firstList = new Set();
     secondList = new Set();
+    currNodeText.innerText = "现在轮到" + FIRST_NODE_ICON + " 行动了";
+    const nodes = (document.getElementsByClassName(
+      "node"
+    ) as unknown) as HTMLInputElement[];
     for (const node of nodes) {
-      (node as HTMLInputElement).innerText = INIT_NODE_ICON;
-      (node as HTMLInputElement).disabled = false;
+      node.innerText = INIT_NODE_ICON;
+      node.disabled = false;
     }
-    const logList = document.getElementById(LOGGER_ID);
-    logList!.innerHTML = "";
-    main!.classList.remove("blur");
-    dialogWrap!.hidden = true;
-  });
+    const logList = document.getElementById(LOGGER_ID) as HTMLElement;
+    logList.innerHTML = "";
+    main.classList.remove("blur");
+    dialogWrap.hidden = true;
+  }
+  document.body.onload = init;
+  resetButton!.addEventListener("click", init);
   // 事件委托
-  board!.addEventListener("click", function boardOnClick(e) {
+  board.addEventListener("click", function boardOnClick(e) {
     const target = e.target as HTMLElement;
     if (!isButton(target)) {
       return;
     }
-    const index = (target as any).id;
+    const index = +target.id;
     const positionNum = getPositionNum(N, index);
     const position = numToPosition(positionNum);
-    (target as any).disabled = true;
+    (target as HTMLInputElement).disabled = true;
     const [currList, currNode, nextNode] = isFirst
       ? [firstList, FIRST_NODE_ICON, SECOND_NODE_ICON]
       : [secondList, SECOND_NODE_ICON, FIRST_NODE_ICON];
     logger(currNode, position);
     currList.add(positionNum);
     (target as any).innerText = currNode;
-    currNodeText!.innerText = "现在轮到" + nextNode + " 行动了";
-    if (isWin(N, currList as any, positionNum)) {
-      dialogWrap!.hidden = false;
-      main!.classList.add("blur");
-      result!.innerText = currNode + "赢了";
+    currNodeText.innerText = "现在轮到" + nextNode + " 行动了";
+    if (isWin(N, currList, positionNum)) {
+      dialogWrap.hidden = false;
+      main.classList.add("blur");
+      result.innerText = currNode + "赢了";
       console.log(currNode + "赢了");
     }
     isFirst = !isFirst;

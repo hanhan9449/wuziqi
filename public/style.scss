@@ -1,5 +1,19 @@
-.logger li {
-  margin: 10px;
+html,
+body,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+html {
+  height: 100vh;
+}
+body {
+  height: 100%;
+}
+.logger {
+  li {
+    margin: 5px;
+  }
 }
 
 .reset {
@@ -17,6 +31,8 @@
 }
 .currNodeBox {
   padding: 30px;
+  display: flex;
+  justify-content: center;
 }
 .logger {
   // TODO: 使用流式布局
@@ -90,11 +106,6 @@
     0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   border: 2px solid black;
   border-radius: 16px;
-}
-body {
-  position: relative;
-  display: flex;
-  flex-direction: column;
 }
 .dialogWrap {
   &::before {
