@@ -1,4 +1,4 @@
-import "../public/style.scss";
+import "./style.scss";
 
 const LOGGER_ID = "logger";
 const MAGIC_NUMBER = 100;
@@ -65,8 +65,7 @@ function isWin(N: number, set: Set<number>, positionNum: number) {
   function judgeRightSlash() {
     return common(99);
   }
-  let flag = judgeRow() || judgeCol() || judgeLeftSlash() || judgeRightSlash();
-  return flag;
+  return judgeRow() || judgeCol() || judgeLeftSlash() || judgeRightSlash();
 }
 function isButton(el: HTMLElement) {
   return el.tagName.toLowerCase() === "button";

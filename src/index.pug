@@ -1,0 +1,25 @@
+- const N = 15;
+- let i = 0;
+- const initNode = "🐑"
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title 五子棋demo
+  body
+    main
+      h1.title 基于grid布局的五子棋设计
+      section.gameMain#gameMain
+        .box.board#board
+          while (i < N * N)
+            button.node(id=i++)=initNode
+        .information
+          .box.currNodeBox#currNodeBox
+            span#currNodeText
+          .box.loggerBox
+            h2.loggerTitle 步数记录
+            ol#logger.logger
+      .dialogWrap#dialogWrap(hidden)
+        .dialog
+          span#result
+          button.reset#reset reset

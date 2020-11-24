@@ -1,0 +1,161 @@
+html,
+body,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+html {
+  height: 100vh;
+}
+body {
+  height: 100%;
+}
+.logger {
+  li {
+    margin: 5px;
+  }
+}
+
+.reset {
+  border: 0;
+  padding: 30px;
+  border-radius: 8px;
+  transition: 0.3s;
+  &:hover {
+    cursor: pointer;
+    background-color: #d2d2d2;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+.currNodeBox {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+.logger {
+  // TODO: 使用流式布局
+  max-height: 65vh;
+  overflow: auto;
+}
+.main {
+  display: flex;
+  margin: auto;
+}
+.loggerBox {
+  width: 300px;
+}
+.loggerTitle {
+  text-align: center;
+}
+.box {
+  border: 1px #b7b7b7 solid;
+  margin: 10px;
+  border-radius: 8px;
+}
+.board {
+  user-select: none;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  width: 43.75rem;
+  height: 43.75rem;
+}
+.gameMain {
+  display: flex;
+  justify-content: center;
+}
+.node {
+  font-size: 2.125rem;
+  line-height: 2.125rem;
+  border-radius: 50%;
+  width: 2.125rem;
+  height: 2.125rem;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  margin: auto;
+  vertical-align: middle;
+  transition: 0.2s;
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+  }
+  &:disabled {
+    transform: none;
+    filter: none;
+    color: currentColor;
+    background-color: transparent;
+  }
+}
+.dialog {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 600px;
+  min-height: 400px;
+  background-color: white;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+  border: 2px solid black;
+  border-radius: 16px;
+}
+.dialogWrap {
+  &::before {
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: black;
+    opacity: 0.1;
+  }
+}
+.blur {
+  filter: blur(16px);
+}
+#result {
+  font-size: 100px;
+  display: block;
+  margin: auto;
+}
+.dialog {
+  z-index: 2;
+  overflow: hidden;
+}
+.title {
+  text-align: center;
+}
+
+@media only screen and (max-width: 1044px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  html {
+    font-size: 9px;
+  }
+}
+@media only screen and (max-width: 419px) {
+  html {
+    font-size: 6px;
+  }
+  .main {
+    flex-direction: column;
+  }
+}
